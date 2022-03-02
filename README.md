@@ -15,3 +15,6 @@
 任何权限通过 ```send APP <app-json>``` 发送APP信息
 
 任何权限通过 ```send MIRAI``` 获取下一条信息的Mirai源信息
+
+## 许可证
+本项目使用 [AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html) 许可证
