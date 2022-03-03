@@ -4,7 +4,7 @@ import net.mamoe.mirai.contact.Friend;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.code.MiraiCode;
 import net.mamoe.mirai.message.data.LightApp;
-import top.focess.qq.Main;
+import top.focess.qq.FocessQQ;
 import top.focess.qq.api.command.*;
 import top.focess.qq.api.command.converter.ExceptionDataConverter;
 import top.focess.qq.api.plugin.Plugin;
@@ -20,9 +20,9 @@ public class SendCommand extends Command {
     @Override
     public void init() {
         this.addExecutor(3,(sender,data,ioHandler) ->{
-            if (sender.isAuthor() || sender.isConsole()) {
+            if (sender.isAdministrator() || sender.isConsole()) {
                 long id = data.getLong();
-                Group group = Main.getGroup(id);
+                Group group = FocessQQ.getGroup(id);
                 if (group == null) {
                     ioHandler.outputLang("send-command-group-not-found",id);
                     return CommandResult.REFUSE;
