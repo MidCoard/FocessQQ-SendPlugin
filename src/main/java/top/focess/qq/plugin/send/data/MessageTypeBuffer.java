@@ -30,4 +30,9 @@ public class MessageTypeBuffer extends DataBuffer<SendCommand.MessageType> {
     public SendCommand.MessageType get() {
         return SendCommand.MessageType.valueOf(stringBuffer.get());
     }
+
+    @Override
+    public SendCommand.MessageType get(int i) {
+        return SendCommand.MessageType.valueOf(stringBuffer.get(i));
+    }
 }
