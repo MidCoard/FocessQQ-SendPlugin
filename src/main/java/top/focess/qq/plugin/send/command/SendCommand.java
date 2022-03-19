@@ -8,15 +8,11 @@ import net.mamoe.mirai.message.data.LightApp;
 import org.jetbrains.annotations.NotNull;
 import top.focess.qq.FocessQQ;
 import top.focess.qq.api.command.*;
-import top.focess.qq.api.command.converter.ExceptionDataConverter;
-import top.focess.qq.api.plugin.Plugin;
-import top.focess.qq.plugin.send.SendPlugin;
-import top.focess.qq.plugin.send.data.MessageTypeBuffer;
+import top.focess.qq.api.util.InputTimeoutException;
 
 import java.util.List;
-import java.util.Locale;
 
-@CommandType(plugin = SendPlugin.class, name = "send")
+@CommandType( name = "send")
 public class SendCommand extends Command {
 
     @Override
@@ -35,7 +31,7 @@ public class SendCommand extends Command {
                 return CommandResult.ALLOW;
             }
             return CommandResult.REFUSE;
-        },CommandArgument.ofLong(),CommandArgument.of(MessageType.MessageTypeDataConverter.MESSAGE_TYPE_DATA_CONVERTER),CommandArgument.ofString());
+        },CommandArgument.ofLong(),CommandArgument.of(MessageTypeDataConverter.MESSAGE_TYPE_DATA_CONVERTER),CommandArgument.ofString());
         this.addExecutor((sender,data,ioHandler) ->{
             if(sender.isMember()) {
                 Group group = sender.getMember().getGroup();
@@ -52,14 +48,16 @@ public class SendCommand extends Command {
                 return CommandResult.ALLOW;
             }
             else return CommandResult.REFUSE;
-        },CommandArgument.of(MessageType.MessageTypeDataConverter.MESSAGE_TYPE_DATA_CONVERTER),CommandArgument.ofString());
+        },CommandArgument.of(MessageTypeDataConverter.MESSAGE_TYPE_DATA_CONVERTER),CommandArgument.ofString());
         this.addExecutor((commandSender, dataCollection, ioHandler) -> {
             if (commandSender.isMember()) {
                 Group group = commandSender.getMember().getGroup();
                 if (dataCollection.get(MessageType.class) == MessageType.MIRAI){
-                        ioHandler.outputLang("send-command-input-one-message");
-                        ioHandler.hasInput(true);
+                    ioHandler.outputLang("send-command-input-one-message");
+                    ioHandler.hasInput(true);
+                    try {
                         group.sendMessage(MiraiCode.deserializeMiraiCode(ioHandler.input(),group));
+                    } catch (InputTimeoutException ignored) {}
                 } else return CommandResult.ARGS;
                 return CommandResult.ALLOW;
             } else if (commandSender.isFriend()) {
@@ -67,12 +65,14 @@ public class SendCommand extends Command {
                 if (dataCollection.get(MessageType.class) == MessageType.MIRAI){
                         ioHandler.outputLang("send-command-input-one-message");
                         ioHandler.hasInput(true);
+                    try {
                         friend.sendMessage(MiraiCode.deserializeMiraiCode(ioHandler.input()));
+                    } catch (InputTimeoutException ignored) {}
                 } else return CommandResult.ARGS;
                 return CommandResult.ALLOW;
             }
             return CommandResult.REFUSE;
-        },CommandArgument.of(MessageType.MessageTypeDataConverter.MESSAGE_TYPE_DATA_CONVERTER));
+        },CommandArgument.of(MessageTypeDataConverter.MESSAGE_TYPE_DATA_CONVERTER));
     }
 
     @NotNull
@@ -91,29 +91,8 @@ public class SendCommand extends Command {
 
     public enum MessageType {
 
-
         TEXT,APP,MIRAI;
 
-        public static class MessageTypeDataConverter extends ExceptionDataConverter<MessageType> {
-
-            public static final MessageTypeDataConverter MESSAGE_TYPE_DATA_CONVERTER = new MessageTypeDataConverter();
-
-            static {
-                DataCollection.register(Plugin.thisPlugin(), MESSAGE_TYPE_DATA_CONVERTER, MessageTypeBuffer::allocate);
-            }
-
-            private MessageTypeDataConverter(){}
-
-            @Override
-            public MessageType convert(String arg) {
-                return MessageType.valueOf(arg.toUpperCase(Locale.ROOT));
-            }
-
-            @Override
-            protected Class<MessageType> getTargetClass() {
-                return MessageType.class;
-            }
-        }
     }
 
 

@@ -12,10 +12,6 @@ public class MessageTypeBuffer extends DataBuffer<SendCommand.MessageType> {
         stringBuffer = StringBuffer.allocate(size);
     }
 
-    public static MessageTypeBuffer allocate(int size) {
-        return new MessageTypeBuffer(size);
-    }
-
     @Override
     public void flip() {
         stringBuffer.flip();
