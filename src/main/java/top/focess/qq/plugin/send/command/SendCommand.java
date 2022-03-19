@@ -25,26 +25,37 @@ public class SendCommand extends Command {
                     ioHandler.outputLang("send-command-group-not-found",id);
                     return CommandResult.REFUSE;
                 }
-                if (data.get(MessageType.class) == MessageType.APP)
+                MessageType messageType = data.get(MessageType.class);
+                if (messageType == MessageType.APP)
                     group.sendMessage(new LightApp(data.get()));
-                else group.sendMessage(data.get());
+                else if (messageType == MessageType.TEXT)
+                    group.sendMessage(data.get());
+                else if (messageType == MessageType.MIRAI)
+                    group.sendMessage(MiraiCode.deserializeMiraiCode(data.get()));
                 return CommandResult.ALLOW;
             }
             return CommandResult.REFUSE;
         },CommandArgument.ofLong(),CommandArgument.of(MessageTypeDataConverter.MESSAGE_TYPE_DATA_CONVERTER),CommandArgument.ofString());
         this.addExecutor((sender,data,ioHandler) ->{
+            MessageType messageType = data.get(MessageType.class);
             if(sender.isMember()) {
                 Group group = sender.getMember().getGroup();
-                if (data.get(MessageType.class) == MessageType.APP)
+                if (messageType == MessageType.APP)
                     group.sendMessage(new LightApp(data.get()));
-                else group.sendMessage(data.get());
+                else if (messageType == MessageType.TEXT)
+                    group.sendMessage(data.get());
+                else if (messageType == MessageType.MIRAI)
+                    group.sendMessage(MiraiCode.deserializeMiraiCode(data.get()));
                 return CommandResult.ALLOW;
             }
             else if (sender.isFriend()) {
                 Friend friend = sender.getFriend();
-                if (data.get(MessageType.class) == MessageType.APP)
+                if (messageType == MessageType.APP)
                     friend.sendMessage(new LightApp(data.get()));
-                else friend.sendMessage(data.get());
+                else if (messageType == MessageType.TEXT)
+                    friend.sendMessage(data.get());
+                else if (messageType == MessageType.MIRAI)
+                    friend.sendMessage(MiraiCode.deserializeMiraiCode(data.get()));
                 return CommandResult.ALLOW;
             }
             else return CommandResult.REFUSE;
@@ -56,17 +67,17 @@ public class SendCommand extends Command {
                     ioHandler.outputLang("send-command-input-one-message");
                     ioHandler.hasInput(true);
                     try {
-                        group.sendMessage(MiraiCode.deserializeMiraiCode(ioHandler.input(),group));
+                        group.sendMessage(ioHandler.input());
                     } catch (InputTimeoutException ignored) {}
                 } else return CommandResult.ARGS;
                 return CommandResult.ALLOW;
             } else if (commandSender.isFriend()) {
                 Friend friend = commandSender.getFriend();
                 if (dataCollection.get(MessageType.class) == MessageType.MIRAI){
-                        ioHandler.outputLang("send-command-input-one-message");
-                        ioHandler.hasInput(true);
+                    ioHandler.outputLang("send-command-input-one-message");
+                    ioHandler.hasInput(true);
                     try {
-                        friend.sendMessage(MiraiCode.deserializeMiraiCode(ioHandler.input()));
+                        friend.sendMessage(ioHandler.input());
                     } catch (InputTimeoutException ignored) {}
                 } else return CommandResult.ARGS;
                 return CommandResult.ALLOW;

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>top.focess.qq</groupId>
-    <artifactId>MiraiQQSend</artifactId>
+    <artifactId>FocessQQ-SendPlugin</artifactId>
     <version>3.0.0</version>
 
     <build>
