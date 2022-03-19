@@ -93,9 +93,11 @@ public class SendCommand extends Command {
         if (commandSender.isConsole() || commandSender.isAdministrator()) {
             list.add("Use: send <group-id> TEXT <text>");
             list.add("Use: send <group-id> APP <app-json>");
+            list.add("Use: send <group-id> MIRAI <mirai>");
         }
         list.add("Use: send TEXT <text>");
         list.add("Use: send APP <app-json>");
+        list.add("Use: send MIRAI <mirai>");
         list.add("Use: send MIRAI");
         return list;
     }
