@@ -12,7 +12,7 @@ import top.focess.qq.api.util.InputTimeoutException;
 
 import java.util.List;
 
-@CommandType( name = "send")
+@CommandType(name = "send")
 public class SendCommand extends Command {
 
     @Override
