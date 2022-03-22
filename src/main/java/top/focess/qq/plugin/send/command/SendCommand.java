@@ -1,12 +1,12 @@
 package top.focess.qq.plugin.send.command;
 
 import com.google.common.collect.Lists;
-import net.mamoe.mirai.contact.Friend;
-import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.code.MiraiCode;
 import net.mamoe.mirai.message.data.LightApp;
 import org.jetbrains.annotations.NotNull;
 import top.focess.qq.FocessQQ;
+import top.focess.qq.api.bot.Friend;
+import top.focess.qq.api.bot.Group;
 import top.focess.qq.api.command.*;
 import top.focess.qq.api.util.InputTimeoutException;
 

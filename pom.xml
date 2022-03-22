@@ -35,7 +35,7 @@
         <dependency>
             <groupId>top.focess</groupId>
             <artifactId>focess-qq</artifactId>
-            <version>4.0.8.3000</version>
+            <version>4.0.8.4000</version>
         </dependency>
     </dependencies>
 
