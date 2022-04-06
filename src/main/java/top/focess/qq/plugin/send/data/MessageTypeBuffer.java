@@ -1,8 +1,9 @@
 package top.focess.qq.plugin.send.data;
 
-import top.focess.qq.api.command.data.DataBuffer;
+import org.jetbrains.annotations.NotNull;
+import top.focess.command.data.DataBuffer;
 import top.focess.qq.plugin.send.command.SendCommand;
-import top.focess.qq.api.command.data.StringBuffer;
+import top.focess.command.data.StringBuffer;
 
 public class MessageTypeBuffer extends DataBuffer<SendCommand.MessageType> {
 
@@ -22,11 +23,13 @@ public class MessageTypeBuffer extends DataBuffer<SendCommand.MessageType> {
         stringBuffer.put(o.name());
     }
 
+    @NotNull
     @Override
     public SendCommand.MessageType get() {
         return SendCommand.MessageType.valueOf(stringBuffer.get());
     }
 
+    @NotNull
     @Override
     public SendCommand.MessageType get(int i) {
         return SendCommand.MessageType.valueOf(stringBuffer.get(i));

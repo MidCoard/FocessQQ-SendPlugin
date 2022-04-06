@@ -1,7 +1,7 @@
 package top.focess.qq.plugin.send.command;
 
-import top.focess.qq.api.command.converter.DataConverterType;
-import top.focess.qq.api.command.converter.ExceptionDataConverter;
+import top.focess.command.converter.DataConverterType;
+import top.focess.command.converter.ExceptionDataConverter;
 import top.focess.qq.plugin.send.data.MessageTypeBuffer;
 
 import java.util.Locale;

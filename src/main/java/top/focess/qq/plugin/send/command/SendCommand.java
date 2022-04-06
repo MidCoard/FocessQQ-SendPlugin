@@ -4,12 +4,14 @@ import com.google.common.collect.Lists;
 import net.mamoe.mirai.message.code.MiraiCode;
 import net.mamoe.mirai.message.data.LightApp;
 import org.jetbrains.annotations.NotNull;
+import top.focess.command.CommandArgument;
+import top.focess.command.CommandResult;
+import top.focess.command.InputTimeoutException;
 import top.focess.qq.FocessQQ;
 import top.focess.qq.api.bot.contact.Friend;
 import top.focess.qq.api.bot.contact.Group;
 import top.focess.qq.api.bot.message.Message;
 import top.focess.qq.api.command.*;
-import top.focess.qq.api.util.InputTimeoutException;
 
 import java.util.List;
 
@@ -28,11 +30,11 @@ public class SendCommand extends Command {
                 }
                 MessageType messageType = data.get(MessageType.class);
                 if (messageType == MessageType.APP)
-                    group.sendMessage(new Message(new LightApp(data.get())));
+                    group.sendMessage(Message.of(new LightApp(data.get())));
                 else if (messageType == MessageType.TEXT)
                     group.sendMessage(data.get());
                 else if (messageType == MessageType.MIRAI)
-                    group.sendMessage(new Message(MiraiCode.deserializeMiraiCode(data.get())));
+                    group.sendMessage(Message.of(MiraiCode.deserializeMiraiCode(data.get())));
                 return CommandResult.ALLOW;
             }
             return CommandResult.REFUSE;
@@ -42,25 +44,25 @@ public class SendCommand extends Command {
             if(sender.isMember()) {
                 Group group = sender.getMember().getGroup();
                 if (messageType == MessageType.APP)
-                    group.sendMessage(new Message(new LightApp(data.get())));
+                    group.sendMessage(Message.of(new LightApp(data.get())));
                 else if (messageType == MessageType.TEXT)
                     group.sendMessage(data.get());
                 else if (messageType == MessageType.MIRAI)
-                    group.sendMessage(new Message(MiraiCode.deserializeMiraiCode(data.get())));
+                    group.sendMessage(Message.of(MiraiCode.deserializeMiraiCode(data.get())));
                 return CommandResult.ALLOW;
             }
             else if (sender.isFriend()) {
                 Friend friend = sender.getFriend();
                 if (messageType == MessageType.APP)
-                    friend.sendMessage(new Message(new LightApp(data.get())));
+                    friend.sendMessage(Message.of(new LightApp(data.get())));
                 else if (messageType == MessageType.TEXT)
                     friend.sendMessage(data.get());
                 else if (messageType == MessageType.MIRAI)
-                    friend.sendMessage(new Message(MiraiCode.deserializeMiraiCode(data.get())));
+                    friend.sendMessage(Message.of(MiraiCode.deserializeMiraiCode(data.get())));
                 return CommandResult.ALLOW;
             }
             else return CommandResult.REFUSE;
-        },CommandArgument.of(MessageTypeDataConverter.MESSAGE_TYPE_DATA_CONVERTER),CommandArgument.ofString());
+        }, CommandArgument.of(MessageTypeDataConverter.MESSAGE_TYPE_DATA_CONVERTER),CommandArgument.ofString());
         this.addExecutor((commandSender, dataCollection, ioHandler) -> {
             if (commandSender.isMember()) {
                 Group group = commandSender.getMember().getGroup();
