@@ -1,1 +1,5 @@
 main: top.focess.qq.plugin.send.SendPlugin
+name: Send
+author: MidCoard
+version: 3.0.1
+require-version: 4.1.2.0000
