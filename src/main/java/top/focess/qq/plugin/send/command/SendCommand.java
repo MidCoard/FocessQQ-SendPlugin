@@ -11,9 +11,12 @@ import top.focess.qq.FocessQQ;
 import top.focess.qq.api.bot.contact.Friend;
 import top.focess.qq.api.bot.contact.Group;
 import top.focess.qq.api.bot.message.Message;
-import top.focess.qq.api.command.*;
+import top.focess.qq.api.command.Command;
+import top.focess.qq.api.command.CommandSender;
+import top.focess.qq.api.command.CommandType;
 import top.focess.qq.core.bot.mirai.message.MiraiMessage;
 
+import java.util.Collections;
 import java.util.List;
 
 @CommandType(name = "send")
@@ -68,20 +71,22 @@ public class SendCommand extends Command {
             if (commandSender.isMember()) {
                 Group group = commandSender.getMember().getGroup();
                 if (dataCollection.get(MessageType.class) == MessageType.MIRAI){
-                    ioHandler.outputLang("send-command-input-one-message");
-                    ioHandler.hasInput(true);
                     try {
-                        group.sendMessage(ioHandler.input());
+                        ioHandler.outputLang("send-command-input-one-message");
+                        Message message = ioHandler.inputMessage();
+                        if (message instanceof MiraiMessage)
+                            group.sendMessage(MiraiCode.serializeToMiraiCode(Collections.singleton(((MiraiMessage) message).getMessage())));
                     } catch (InputTimeoutException ignored) {}
                 } else return CommandResult.ARGS;
                 return CommandResult.ALLOW;
             } else if (commandSender.isFriend()) {
                 Friend friend = commandSender.getFriend();
                 if (dataCollection.get(MessageType.class) == MessageType.MIRAI){
-                    ioHandler.outputLang("send-command-input-one-message");
-                    ioHandler.hasInput(true);
                     try {
-                        friend.sendMessage(ioHandler.input());
+                        ioHandler.outputLang("send-command-input-one-message");
+                        Message message = ioHandler.inputMessage();
+                        if (message instanceof MiraiMessage)
+                            friend.sendMessage(MiraiCode.serializeToMiraiCode(Collections.singleton(((MiraiMessage) message).getMessage())));
                     } catch (InputTimeoutException ignored) {}
                 } else return CommandResult.ARGS;
                 return CommandResult.ALLOW;
