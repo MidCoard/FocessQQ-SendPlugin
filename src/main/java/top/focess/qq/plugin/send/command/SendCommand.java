@@ -12,6 +12,7 @@ import top.focess.qq.api.bot.contact.Friend;
 import top.focess.qq.api.bot.contact.Group;
 import top.focess.qq.api.bot.message.Message;
 import top.focess.qq.api.command.*;
+import top.focess.qq.core.bot.mirai.message.MiraiMessage;
 
 import java.util.List;
 
@@ -30,11 +31,11 @@ public class SendCommand extends Command {
                 }
                 MessageType messageType = data.get(MessageType.class);
                 if (messageType == MessageType.APP)
-                    group.sendMessage(Message.of(new LightApp(data.get())));
+                    group.sendMessage(new MiraiMessage(new LightApp(data.get())));
                 else if (messageType == MessageType.TEXT)
                     group.sendMessage(data.get());
                 else if (messageType == MessageType.MIRAI)
-                    group.sendMessage(Message.of(MiraiCode.deserializeMiraiCode(data.get())));
+                    group.sendMessage(new MiraiMessage(MiraiCode.deserializeMiraiCode(data.get())));
                 return CommandResult.ALLOW;
             }
             return CommandResult.REFUSE;
@@ -44,21 +45,21 @@ public class SendCommand extends Command {
             if(sender.isMember()) {
                 Group group = sender.getMember().getGroup();
                 if (messageType == MessageType.APP)
-                    group.sendMessage(Message.of(new LightApp(data.get())));
+                    group.sendMessage(new MiraiMessage(new LightApp(data.get())));
                 else if (messageType == MessageType.TEXT)
                     group.sendMessage(data.get());
                 else if (messageType == MessageType.MIRAI)
-                    group.sendMessage(Message.of(MiraiCode.deserializeMiraiCode(data.get())));
+                    group.sendMessage(new MiraiMessage(MiraiCode.deserializeMiraiCode(data.get())));
                 return CommandResult.ALLOW;
             }
             else if (sender.isFriend()) {
                 Friend friend = sender.getFriend();
                 if (messageType == MessageType.APP)
-                    friend.sendMessage(Message.of(new LightApp(data.get())));
+                    friend.sendMessage(new MiraiMessage(new LightApp(data.get())));
                 else if (messageType == MessageType.TEXT)
                     friend.sendMessage(data.get());
                 else if (messageType == MessageType.MIRAI)
-                    friend.sendMessage(Message.of(MiraiCode.deserializeMiraiCode(data.get())));
+                    friend.sendMessage(new MiraiMessage(MiraiCode.deserializeMiraiCode(data.get())));
                 return CommandResult.ALLOW;
             }
             else return CommandResult.REFUSE;
